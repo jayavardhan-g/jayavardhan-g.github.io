@@ -1,1 +1,24 @@
 <h1>Website</h1>
+<script>
+try {
+      const returnUrl = new URLSearchParams(window.location.search).get('returnUrl');
+      if (returnUrl) {
+        try {
+          const url = new URL(returnUrl, window.location.href);
+          if (url.origin !== window.location.origin) {
+            throw new Error('Cross-origin redirect detected');
+          }
+          window.location.href = url.href;
+        } catch (err) {
+          // Invalid returnUrl
+          window.location.href = '/';
+        }
+      } else {
+        window.location.pathname = '/';
+      }
+    } catch(err) {
+      // Some officially unsupported browsers do not support URLSearchParams
+      // Tell these users to use another browser.
+      window.location.pathname = '/not-supported';
+    }
+</script>
